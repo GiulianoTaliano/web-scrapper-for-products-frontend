@@ -1,65 +1,29 @@
 <template>
-  <div id="app">
-    <h1>Product Search</h1>
-    <input v-model="productName" placeholder="Enter product name" />
-    <input v-model="countryCode" placeholder="Enter country code" />
-    <button @click="searchProducts">Search</button>
-
-    <div v-if="loading">Loading...</div>
-    
-    <ul v-if="products.length > 0">
-      <li v-for="(product, index) in products" :key="index">
-        <strong>{{ product.name }}</strong> - Relevance Score: {{ product.relevance_score }}
-      </li>
-    </ul>
-
-    <div v-if="error">{{ error }}</div>
+  <AppHeader />
+  <div id="main">
+    <SearchForm :productName="productName" :countryCode="countryCode" @update:productName="productName = $event" 
+      @update:countryCode="countryCode = $event" @search="searchProducts" />
+    <LoadingState :progress="progress" 
+      v-if="isLoading" />
+    <ProductListing :productName="productName" :countryCode="countryCode" :products="products" 
+      v-if="!isLoading && products.length > 0" />
   </div>
+  <AppFooter />
 </template>
 
-<script>
-import axios from 'axios';
+<script src="./App.js"></script>
 
-export default {
-  data() {
-    return {
-      productName: '',
-      countryCode: '',
-      products: [],
-      loading: false,
-      error: null
-    };
-  },
-  methods: {
-    async searchProducts() {
-      this.loading = true;
-      this.error = null;
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/products', {
-          params: {
-            product_name: this.productName,
-            country_code: this.countryCode
-          }
-        });
-        this.products = response.data;
-      } catch (err) {
-        this.error = 'Failed to fetch products';
-      } finally {
-        this.loading = false;
-      }
-    }
-  }
-};
-</script>
-
-<style scoped>
+<style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 9vh;
+  font-family: Arial, sans-serif;
+  margin: 0;
 }
 
-input {
-  margin: 5px;
+#main {
+  padding: 0 200px;
 }
 </style>
