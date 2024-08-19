@@ -1,9 +1,10 @@
 <template>
     <footer>
+        <p>© 2023 Gadget Search</p>
         <div class="footer-links">
-            <a href="#">Contact Us</a>
-            <a href="#">About Us</a>
-            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>|
+            <a href="#">About Us</a>|
+            <a href="#">Terms of Service</a>|
             <a href="#">Privacy Policy</a>
         </div>
         <div class="social-links">
@@ -24,7 +25,6 @@
                 </svg>
             </a>
         </div>
-        <p>© 2023 Gadget Search</p>
     </footer>
 </template>
 
@@ -37,9 +37,11 @@ export default {
 <style scoped>
 footer {
     margin-top: 50px;
+    padding: 10px;
     text-align: center;
     font-size: 14px;
     color: #555;
+    background-color: rgb(240, 240, 240);
 }
 
 .footer-links {
@@ -50,12 +52,11 @@ footer {
 }
 
 .footer-links a {
-    color: inherit;
+    color: #0056b3;
     text-decoration: none;
 }
 
 .footer-links a:hover {
-    color: #007bff;
     text-decoration: underline;
 }
 

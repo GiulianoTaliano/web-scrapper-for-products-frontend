@@ -1,31 +1,36 @@
 <template>
     <div class="product-listing">
         <div class="title_sorting">
-            <h1>Results for {{ productName }} in {{ countryCode }}</h1>
+            <h1>Results for "{{ productName }}" in "{{ countryCode }}"</h1>
             <div class="sorting-options">
+                <span class="sort-icon" @click="toggleSortOrder" v-if="sortBy === 'price' || sortBy === 'positiveness'" >
+                    <i :class="sortOrder === 'asc' ? 'icon-down' : 'icon-up'"></i>
+                </span>
                 <select v-model="sortBy" @change="sortProducts">
                     <option value="relevance">Relevance</option>
                     <option value="price">Price</option>
                     <option value="positiveness">Positiveness</option>
                 </select>
-                <span class="sort-icon" @click="toggleSortOrder">
-                    <i :class="sortOrder === 'asc' ? 'icon-up' : 'icon-down'"></i>
-                </span>
             </div>
         </div>
         <div class="product" v-for="product in sortedProducts" :key="product.name">
             <img :src=product.image />
             <div class="product-details">
                 <h2>{{ product.name }}</h2>
-                <p>{{ product.price }}</p>
-                <p>{{ product.positiveness }}</p>
+                <p class="price">{{ product.price }}</p>
             </div>
+            <HeartRating :positiveness="product.positiveness" />
         </div>
     </div>
 </template>
 
 <script>
+import HeartRating from './HeartRating.vue';
+
 export default {
+    components: {
+        HeartRating,
+    },
     props: {
         products: {
             type: Array,
@@ -56,9 +61,10 @@ export default {
                     comparison = a.positiveness - b.positiveness;
                 }
 
-                return this.sortOrder === 'asc' ? comparison : -comparison;
+                return this.sortOrder === 'asc' ? -comparison : comparison;
             });
         }
+
     },
     methods: {
         toggleSortOrder() {
@@ -72,7 +78,7 @@ export default {
 .product-listing {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     max-width: 100%;
     gap: 20px;
 }
@@ -98,8 +104,13 @@ h1 {
 
 .sorting-options select {
     padding: 5px;
+    border: none;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    background-color: #F0F2F5;
+}
+
+.sorting-options select:hover {
+    cursor: pointer;
 }
 
 .sort-icon {
@@ -117,11 +128,13 @@ h1 {
 .product {
     display: flex;
     align-items: center;
-    width: 50%;
+    justify-content: space-between;
+    width: 75%;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
 }
 
 .product img {
@@ -134,6 +147,7 @@ h1 {
 
 .product-details {
     text-align: left;
+    flex-grow: 1;
 }
 
 .product-details h2 {
@@ -145,5 +159,10 @@ h1 {
 .product-details p {
     margin: 5px 0 0;
     color: #555;
+}
+
+.price {
+    color: lightgreen !important;
+    font-weight: bold;
 }
 </style>

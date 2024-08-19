@@ -56,7 +56,6 @@ export default {
 
 <style scoped>
 .search-form {
-    width: 50%;
     display: flex !important;
     flex-direction: column;
 }
@@ -75,7 +74,14 @@ label {
     margin-top: 5px;
 }
 
-input,
+input {
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    background-color: #F0F2F5;
+}
+
 select {
     padding: 16px;
     border: none;
@@ -88,7 +94,6 @@ select {
 
 select:hover {
     cursor: pointer;
-    background-color: lightgray;
 }
 
 button {
