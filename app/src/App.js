@@ -51,7 +51,7 @@ export default {
             const progressInterval = setInterval(incrementProgress, 200); // Progress every 200ms
 
             // Mock search process, replace this with your actual API call
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Simulating a network delay
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating a network delay
 
             // Complete the loading
             clearInterval(progressInterval);
@@ -59,12 +59,42 @@ export default {
 
             // Mocked products for demonstration
             this.products = [
-                { name: "iPhone 13 Pro Max", price: "$1,000", "positiveness": 1, image: "https://via.placeholder.com/50" },
-                { name: "Apple Watch Series 7", price: "$500", "positiveness": 5, image: "https://via.placeholder.com/50" },
-                { name: "AirPods Pro", price: "$200", "positiveness": 3, image: "https://via.placeholder.com/50" },
-                { name: "Air Fryer", price: "$450", "positiveness": 3, image: "https://via.placeholder.com/50" },
-                { name: "Jordan IV", price: "$700", "positiveness": 4, image: "https://via.placeholder.com/50" },
-                { name: "Audi A1", price: "$18000", "positiveness": 2, image: "https://via.placeholder.com/50" }
+                {
+                    name: 'iPhone 13 Pro Max',
+                    price: '$1,000',
+                    positiveness: 1,
+                    image: 'https://via.placeholder.com/50',
+                },
+                {
+                    name: 'Apple Watch Series 7',
+                    price: '$500',
+                    positiveness: 5,
+                    image: 'https://via.placeholder.com/50',
+                },
+                {
+                    name: 'AirPods Pro',
+                    price: '$200',
+                    positiveness: 3,
+                    image: 'https://via.placeholder.com/50',
+                },
+                {
+                    name: 'Air Fryer',
+                    price: '$450',
+                    positiveness: 3,
+                    image: 'https://via.placeholder.com/50',
+                },
+                {
+                    name: 'Jordan IV',
+                    price: '$700',
+                    positiveness: 4,
+                    image: 'https://via.placeholder.com/50',
+                },
+                {
+                    name: 'Audi A1',
+                    price: '$18000',
+                    positiveness: 2,
+                    image: 'https://via.placeholder.com/50',
+                },
             ];
 
             // Reset loading and progress

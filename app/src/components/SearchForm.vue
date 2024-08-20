@@ -1,15 +1,34 @@
 <template>
     <form @submit.prevent="$emit('search')" class="search-form">
         <div class="custom-input">
-        <label>Product Name</label>
-            <input type="text" :value="productName" @input="updateProductName($event.target.value)"
-                placeholder="Enter product name" required />
+            <label for="product-name">Product</label>
+            <input
+                id="product-name"
+                type="text"
+                :value="productName"
+                @input="updateProductName($event.target.value)"
+                placeholder="Enter product name"
+                v-tooltip="
+                    'Enter the product you want to search for. The application will search for buyable products with positive reviews.'
+                "
+                required
+            />
         </div>
         <div class="custom-input">
-            <label>Country Code</label>
-            <select :value="countryCode" @change="updateCountryCode($event.target.value)" required>
+            <label for="country-code">Country</label>
+            <select
+                id="country-code"
+                :value="countryCode"
+                @change="updateCountryCode($event.target.value)"
+                tooltip="'Select the country where the product search will be performed. The results will be based on websites relevant to this country.'"
+                required
+            >
                 <option value="" disabled>Select a country</option>
-                <option v-for="country in countries" :key="country.code" :value="country.code">
+                <option
+                    v-for="country in countries"
+                    :key="country.code"
+                    :value="country.code"
+                >
                     {{ country.name }} ({{ country.code }})
                 </option>
             </select>
@@ -19,96 +38,93 @@
 </template>
 
 <script>
-import countryList from 'country-list';
+    import countryList from 'country-list';
+    import { VTooltip } from 'v-tooltip';
 
-export default {
-    props: {
-        productName: String,
-        countryCode: String,
-    },
-    data() {
-        return {
-            countries: [],
-        };
-    },
-    created() {
-        this.countries = countryList.getData().map(country => ({
-            name: country.name,
-            code: country.code,
-        }))
-    },
-    methods: {
-        updateProductName(value) {
-            this.$emit('update:productName', value);
+    export default {
+        props: {
+            productName: {
+                type: String,
+                required: true,
+            },
+            countryCode: {
+                type: String,
+                required: true,
+            },
         },
-        updateCountryCode(value) {
-            this.$emit('update:countryCode', value)
+        data() {
+            return {
+                countries: [],
+            };
         },
-        emitSearch() {
-            this.$emit('search', {
-                productName: this.productName,
-                countryCode: this.countryCode,
-            });
+        directives: {
+            tooltip: VTooltip,
         },
-    },
-};
+        created() {
+            this.countries = countryList.getData().map((country) => ({
+                name: country.name,
+                code: country.code,
+            }));
+        },
+        methods: {
+            updateProductName(value) {
+                this.$emit('update:productName', value);
+            },
+            updateCountryCode(value) {
+                this.$emit('update:countryCode', value);
+            },
+        },
+    };
 </script>
 
 <style scoped>
-.search-form {
-    display: flex !important;
-    flex-direction: column;
-}
+    .search-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-.custom-input {
-    padding: 12px 0;
-    width: 100%;
-    display: flex !important;
-    flex-direction: column;
-    gap: 5px;
-}
+    .custom-input {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 
-label {
-    font-weight: bold;
-    color: #333;
-    margin-top: 5px;
-}
+    label {
+        font-weight: bold;
+        color: #333;
+    }
 
-input {
-    padding: 16px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    background-color: #F0F2F5;
-}
+    input,
+    select {
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        background-color: #f0f2f5;
+        transition: border-color 0.3s;
+    }
 
-select {
-    padding: 16px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    height: 50px;
-    width: 100%;
-    background-color: #F0F2F5;
-}
+    input:focus,
+    select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
 
-select:hover {
-    cursor: pointer;
-}
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        font-size: 16px;
+        border-radius: 8px;
+        height: 50px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
 
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    font-size: 16px;
-    border-radius: 12px;
-    height: 50px;
-    cursor: pointer;
-    width: 100%;
-    margin: 12px 0px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
+    button:hover {
+        background-color: #0056b3;
+    }
 </style>
